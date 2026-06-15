@@ -1046,7 +1046,7 @@
                 
                 <div class="hero-stats">
                     <div class="stat-item">
-                        <span class="stat-number" data-target="24">0</span>
+                        <span class="stat-number" data-target="34">0</span>
                         <span class="stat-label">Workflows Built</span>
                     </div>
                     <div class="stat-item">
@@ -1349,6 +1349,106 @@
                 tools: ['n8n', 'Google Sheets', 'Slack API', 'JavaScript'],
                 description: 'Monthly AM performance evaluation across three markets — plus the internal infrastructure that manages the automations themselves.',
                 outcome: 'Automated performance tracking and project management across SG, HK, and PH.'
+            },
+            {
+                id: 'P-006',
+                title: 'FB Lead Ads to CRM Routing System',
+                category: 'ops',
+                image: 'assets/images/project-006-fb-lead-routing.png',
+                link: 'case-studies/case-study-p006.html',
+                tools: ['n8n', 'Facebook Lead Ads', 'Salesforce', 'Slack API'],
+                description: 'From Facebook ad click to CRM record in under 60 seconds — with automatic round-robin assignment, deduplication, and instant team notifications.',
+                outcome: 'Zero manual lead entry. Fair AM distribution with full assignment audit trail.'
+            },
+            {
+                id: 'P-007',
+                title: 'Live Data to WhatsApp: Balance Alert System',
+                category: 'ops',
+                image: 'assets/images/project-007-balance-alert.png',
+                link: 'case-studies/case-study-p007.html',
+                tools: ['n8n', 'BigQuery', 'WhatsApp Business API', 'Google Sheets'],
+                description: 'Joins a live data warehouse against a CRM sheet to identify at-risk accounts and sends personalized WhatsApp alerts before they churn.',
+                outcome: '802 at-risk accounts identified and messaged in a single automated run.'
+            },
+            {
+                id: 'P-008',
+                title: '3-Trigger Account Signal Alert Engine',
+                category: 'ops',
+                image: 'assets/images/project-008-signal-engine.png',
+                link: 'case-studies/case-study-p008.html',
+                tools: ['n8n', 'Google Sheets', 'Salesforce', 'WhatsApp API', 'Slack API'],
+                description: 'Watches every account in real time across three behavioral triggers — low balance, sharp increase, declining activity — and routes dual-channel alerts to the right person.',
+                outcome: '100% of accounts monitored daily. Zero manual checks. Full AM action trail.'
+            },
+            {
+                id: 'P-009',
+                title: 'AI-Powered Lead Scraper: Singapore',
+                category: 'ai',
+                image: 'assets/images/project-009-lead-scraper-sg.png',
+                link: 'case-studies/case-study-p009.html',
+                tools: ['n8n', 'Apify', 'Jina AI', 'SerpAPI', 'Google Sheets'],
+                description: 'A five-workflow pipeline that discovers, enriches, validates, and deduplicates business leads from scratch — existing clients automatically excluded.',
+                outcome: '300 qualified, enriched leads per run at ~$0.50 USD. Sales team starts each day with a warm pipeline.'
+            },
+            {
+                id: 'P-010',
+                title: 'Lead Scraper: Hong Kong Variant',
+                category: 'ai',
+                image: 'assets/images/project-010-lead-scraper-hk.png',
+                link: 'case-studies/case-study-p010.html',
+                tools: ['n8n', 'Apify', 'Jina AI', 'HK Companies Registry API', 'Google Sheets'],
+                description: 'The same five-workflow architecture as the Singapore scraper, rebuilt for Hong Kong with Traditional Chinese queries, HK phone validation, and the free Companies Registry API.',
+                outcome: 'Two markets running parallel prospecting pipelines from the same architecture.'
+            },
+            {
+                id: 'P-011',
+                title: 'Live Seller Mastersheet Populator',
+                category: 'ops',
+                image: 'assets/images/project-011-mastersheet.png',
+                link: 'case-studies/case-study-p011.html',
+                tools: ['n8n', 'Google Sheets', 'Salesforce', 'JavaScript Code Nodes'],
+                description: 'In-memory hashmap joins across three data sources — CRM, campaign data, and merchant list — with smart merge logic and change detection before every write.',
+                outcome: 'Zero VLOOKUP functions run by humans. Mastersheet updates automatically on a daily schedule.'
+            },
+            {
+                id: 'P-012',
+                title: 'Real-Time Form Submission Verifier',
+                category: 'ops',
+                image: 'assets/images/project-012-form-checker.png',
+                link: 'case-studies/case-study-p012.html',
+                tools: ['n8n', 'Google Forms', 'Google Sheets'],
+                description: 'Event-driven verification that fires the moment a seller submits an interest form — checks against the active subscriber list and writes the result back in under 2 seconds.',
+                outcome: '100% of submissions pre-classified before the sales team opens the sheet.'
+            },
+            {
+                id: 'P-013',
+                title: 'ChrisBot: Slack Workload Manager',
+                category: 'ai',
+                image: 'assets/images/project-013-chrisbot.png',
+                link: 'case-studies/case-study-p013.html',
+                tools: ['n8n', 'Slack API', 'OpenAI GPT-4o', 'Google Calendar'],
+                description: 'A Slack-native AI agent that intercepts work requests, sends intelligent acknowledgments on your behalf, and schedules tasks as calendar blocks — so deep work stays protected.',
+                outcome: 'Zero requests fall through the cracks. 23 minutes of focus time saved per interruption avoided.'
+            },
+            {
+                id: 'P-014',
+                title: 'Voice-to-Email Executive Automation',
+                category: 'ai',
+                image: 'assets/images/project-014-voice-email.png',
+                link: 'case-studies/case-study-p014.html',
+                tools: ['n8n', 'OpenAI Whisper', 'GPT-4o', 'Gmail API'],
+                description: 'A 9-node pipeline that transcribes voice recordings, extracts context, drafts a complete professional email, and saves it to Gmail — ready to review and send in under 30 seconds.',
+                outcome: 'Executive email time reduced from hours to minutes. Human review gate retained before every send.'
+            },
+            {
+                id: 'P-015',
+                title: 'End-to-End TA Automation System',
+                category: 'ops',
+                image: 'assets/images/project-015-ta-system.png',
+                link: 'case-studies/case-study-p015.html',
+                tools: ['n8n', 'Google Forms', 'Google Sheets', 'Looker Studio'],
+                description: 'Six interconnected systems covering the full talent acquisition lifecycle: intake, round-robin assignment, auto-generated interview links, role-based sheet access, structured interview forms, and a live management dashboard.',
+                outcome: 'Full pipeline visibility for management. Fair, automated applicant distribution across 7 TA officers.'
             }
         ];
 
