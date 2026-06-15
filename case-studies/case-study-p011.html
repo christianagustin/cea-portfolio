@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P-011: Live Seller Mastersheet Populator | Christian Emmanuelle Agustin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0a0e27;
+            --secondary: #1e293b;
+            --accent: #06b6d4;
+            --accent-glow: #06b6d440;
+            --gold: #fbbf24;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+            --glass: rgba(30, 41, 59, 0.7);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: var(--primary); color: var(--text); overflow-x: hidden; cursor: none; line-height: 1.7; }
+        h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; line-height: 1.2; }
+
+        .cursor { width: 20px; height: 20px; border: 2px solid var(--accent); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transition: transform 0.15s ease-out; mix-blend-mode: difference; }
+        .cursor-follower { width: 40px; height: 40px; background: var(--accent-glow); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transition: transform 0.3s ease-out; }
+        .cursor.hover { transform: scale(1.5); background: rgba(6, 182, 212, 0.3); }
+        @media (pointer: coarse) { .cursor, .cursor-follower { display: none !important; } body { cursor: auto !important; } }
+
+        nav { position: fixed; top: 0; width: 100%; padding: 1.5rem 0; z-index: 1000; background: rgba(10, 14, 39, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+        .nav-container { max-width: 1400px; margin: 0 auto; padding: 0 3rem; display: flex; justify-content: space-between; align-items: center; }
+        .back-link { display: inline-flex; align-items: center; gap: 0.75rem; color: var(--text-muted); text-decoration: none; font-weight: 500; transition: all 0.3s; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--border); }
+        .back-link:hover { color: var(--text); border-color: var(--accent); background: rgba(6, 182, 212, 0.1); }
+        .logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+        .case-hero { padding: 12rem 0 6rem; background: linear-gradient(180deg, rgba(6, 182, 212, 0.1) 0%, var(--primary) 100%); border-bottom: 1px solid var(--border); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 3rem; }
+        .case-meta { display: flex; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; align-items: center; }
+        .case-tag { padding: 0.5rem 1rem; background: rgba(6, 182, 212, 0.1); border: 1px solid var(--accent); border-radius: 9999px; color: var(--accent); font-size: 0.875rem; font-weight: 600; }
+        .case-id { color: var(--gold); font-weight: 700; font-size: 0.875rem; letter-spacing: 0.1em; }
+        .case-hero h1 { font-size: 3.5rem; margin-bottom: 1.5rem; background: linear-gradient(135deg, #fff 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -1px; }
+        .case-headline { font-size: 1.25rem; color: var(--text-muted); font-weight: 400; line-height: 1.6; max-width: 900px; }
+
+        .case-content { padding: 6rem 0; }
+        .section { margin-bottom: 4rem; }
+        .section h2 { font-size: 2rem; margin-bottom: 1.5rem; color: var(--text); }
+        .section p { color: var(--text-muted); font-size: 1.05rem; margin-bottom: 1rem; line-height: 1.8; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin: 3rem 0; }
+        .stat-card { background: var(--glass); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; text-align: center; backdrop-filter: blur(10px); }
+        .stat-card .stat-number { display: block; font-size: 2.5rem; font-weight: 700; color: var(--accent); font-family: 'Space Grotesk', sans-serif; }
+        .stat-card .stat-label { font-size: 0.875rem; color: var(--text-muted); margin-top: 0.5rem; display: block; }
+
+        .flow-container { background: var(--secondary); border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem; margin: 2rem 0; overflow-x: auto; }
+        .flow-diagram { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+        .flow-step { background: rgba(6, 182, 212, 0.1); border: 1px solid var(--accent); border-radius: 8px; padding: 0.75rem 1.25rem; font-size: 0.9rem; font-weight: 600; color: var(--accent); white-space: nowrap; }
+        .flow-arrow { color: var(--gold); font-size: 1.25rem; font-weight: 700; }
+
+        .phase-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+        .phase-table tr { border-bottom: 1px solid var(--border); }
+        .phase-table tr:last-child { border-bottom: none; }
+        .phase-table td { padding: 1.2rem 1rem; vertical-align: top; font-size: 0.95rem; line-height: 1.7; }
+        .phase-table td:first-child { color: var(--accent); font-weight: 700; white-space: nowrap; width: 180px; font-family: 'Space Grotesk', sans-serif; }
+        .phase-table td:last-child { color: var(--text-muted); }
+        .phase-table tr:hover td { background: rgba(6, 182, 212, 0.04); }
+
+        .tools-list { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1.5rem 0; }
+        .tool-item { padding: 0.4rem 1rem; background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 9999px; color: var(--gold); font-size: 0.875rem; font-weight: 500; }
+
+        .outcome-box { background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(251, 191, 36, 0.05)); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 20px; padding: 3rem; margin: 3rem 0; }
+        .outcome-box h3 { font-size: 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; color: var(--text); }
+        .outcome-box ul { list-style: none; }
+        .outcome-box ul li { padding: 0.75rem 0; color: var(--text-muted); border-bottom: 1px solid var(--border); display: flex; gap: 1rem; align-items: flex-start; font-size: 0.95rem; line-height: 1.7; }
+        .outcome-box ul li:last-child { border-bottom: none; }
+        .outcome-box ul li::before { content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: 0.1rem; }
+
+        blockquote { border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; margin: 2rem 0; background: rgba(6, 182, 212, 0.05); border-radius: 0 8px 8px 0; }
+        blockquote p { color: var(--text); font-style: italic; font-size: 1.1rem; margin: 0; }
+
+        .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0; }
+        .detail-item { background: var(--secondary); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+        .detail-item .detail-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+        .detail-item .detail-value { color: var(--text); font-size: 0.95rem; line-height: 1.6; }
+
+        .case-cta { text-align: center; padding: 5rem 0 2rem; }
+        .case-cta h3 { font-size: 2rem; margin-bottom: 1rem; }
+        .case-cta p { color: var(--text-muted); margin-bottom: 2rem; }
+        .btn { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem; background: linear-gradient(135deg, var(--accent), #0891b2); color: white; border-radius: 50px; font-weight: 600; text-decoration: none; transition: all 0.3s; margin: 0.5rem; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(6, 182, 212, 0.3); }
+        .btn-secondary { background: transparent; border: 1px solid var(--border); color: var(--text); }
+        .btn-secondary:hover { border-color: var(--accent); background: rgba(6, 182, 212, 0.1); }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        footer { padding: 3rem 0; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); }
+
+        @media (max-width: 768px) {
+            .case-hero h1 { font-size: 2.25rem; }
+            .container { padding: 0 1.5rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .detail-grid { grid-template-columns: 1fr; }
+            .nav-container { padding: 0 1.5rem; }
+            .phase-table td:first-child { width: 120px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <nav>
+        <div class="nav-container">
+            <a href="../index.html" class="back-link">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Back to Portfolio
+            </a>
+            <span class="logo">CEA</span>
+        </div>
+    </nav>
+
+    <section class="case-hero">
+        <div class="container">
+            <div class="case-meta">
+                <span class="case-id">P-011</span>
+                <span class="case-tag">Operations</span><span class="case-tag">Data Engineering</span>
+            </div>
+            <h1>Live Seller Mastersheet Populator</h1>
+            <p class="case-headline">An automated data pipeline that joins three separate business systems into a single, always-current mastersheet — replacing hours of daily VLOOKUP work with a scheduled workflow that runs without human input.</p>
+        </div>
+    </section>
+
+    <section class="case-content">
+        <div class="container">
+
+            <!-- Stats -->
+            <div class="stats-grid reveal">
+                <div class="stat-card"><span class="stat-number">3</span><span class="stat-label">Data sources joined automatically</span></div><div class="stat-card"><span class="stat-number">50</span><span class="stat-label">Rows processed per batch</span></div><div class="stat-card"><span class="stat-number">0</span><span class="stat-label">VLOOKUP functions run by humans</span></div><div class="stat-card"><span class="stat-number">Daily</span><span class="stat-label">Update frequency</span></div>
+            </div>
+
+            <!-- Problem -->
+            <div class="section reveal">
+                <h2>The Problem</h2>
+                <p>Sales and operations teams in high-growth companies almost always hit the same wall. The data they need is split across multiple systems: a CRM for account records, a campaign tool for performance data, and a merchant master list. None of these systems talk to each other natively.</p><p>The workaround is a mastersheet: a manually assembled spreadsheet where someone runs VLOOKUP functions, copies and pastes columns, and maintains a merged view. This takes 1-3 hours daily. It is always slightly out of date. When the person who maintains it is on leave, it does not get updated at all.</p>
+                <blockquote><p>The most dangerous spreadsheet in your business is the one that only one person knows how to maintain.</p></blockquote>
+            </div>
+
+            <!-- How It Works -->
+            <div class="section reveal">
+                <h2>How It Works</h2>
+                <p>An in-memory hashmap join. All three sources are loaded into memory at the start of each run. Joining happens in a single code node — no per-row API calls, no rate limit issues.</p>
+                <table class="phase-table">
+                    <tr><td>Load Source A</td><td>Campaign data fetched from the active campaign sheet. This is the primary owner of operational fields: assigned AM, contact email, contact phone, subscription type.</td></tr><tr><td>Load Source B</td><td>CRM records fetched from Salesforce. This source owns package tier and revenue dates. Where a merchant has multiple CRM records, the one with the latest revenue end date wins.</td></tr><tr><td>Load Source C</td><td>Active merchant list fetched as a fallback. If a merchant exists here but not in Sources A or B, their basic identity data is still captured.</td></tr><tr><td>Join in Memory</td><td>A code node builds a hashmap keyed on user ID from each source. A second pass merges the three maps with Source A taking priority over B, and B over C.</td></tr><tr><td>Smart Merge</td><td>For merchants with multiple records (e.g. two CRM entries with different emails), the merge picks the best value — non-null email from any source, latest revenue date for commercial fields.</td></tr><tr><td>Change Detection</td><td>Before writing, each candidate row is compared to the current mastersheet row. Only rows where at least one field changed are written. Protected columns are never overwritten.</td></tr><tr><td>Batch Write</td><td>Confirmed updates are written 50 rows at a time to stay within API rate limits.</td></tr>
+                </table>
+            </div>
+
+            <div class="section reveal">
+        <h2>Protected Columns</h2>
+        <p>Some fields in the mastersheet are business-owned — they should never be overwritten by automation, regardless of what the source systems say.</p>
+        <div class="detail-grid">
+            <div class="detail-item"><div class="detail-label">Protected</div><div class="detail-value">Company name, registration number, CRM account ID, manually entered notes</div></div>
+            <div class="detail-item"><div class="detail-label">Owned by Source A</div><div class="detail-value">AM assignment, contact email, phone, subscription type</div></div>
+            <div class="detail-item"><div class="detail-label">Owned by Source B</div><div class="detail-value">Package tier, revenue end date, main category</div></div>
+            <div class="detail-item"><div class="detail-label">Fallback (Source C)</div><div class="detail-value">Username, basic identity where A and B have no match</div></div>
+        </div>
+    </div>
+
+            <!-- Tools -->
+            <div class="section reveal">
+                <h2>Tools &amp; Technologies</h2>
+                <div class="tools-list">
+                    <span class="tool-item">n8n</span><span class="tool-item">Google Sheets</span><span class="tool-item">Salesforce CRM</span><span class="tool-item">JavaScript Code Nodes (Hashmap Joins)</span>
+                </div>
+            </div>
+
+            <!-- Outcome -->
+            <div class="outcome-box reveal">
+                <h3>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    Outcome &amp; Impact
+                </h3>
+                <ul>
+                    <li><strong>The mastersheet updates automatically</strong> on a schedule. No one needs to run VLOOKUPs.</li><li><strong>Data is current</strong> as of the last scheduled run — not as of last Tuesday when someone had time.</li><li><strong>Single-person dependency eliminated.</strong> If the previous maintainer leaves, the automation keeps running.</li><li><strong>Manual annotations</strong> in protected columns are preserved across every automated update.</li>
+                </ul>
+            </div>
+
+            <!-- CTA -->
+            <div class="case-cta reveal">
+                <h3>Ready to Automate Your Operations?</h3>
+                <p>Let's build intelligent systems that eliminate manual work and scale without headcount.</p>
+                <div>
+                    <a href="../index.html#contact" class="btn">
+                        Start a Project
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    </a>
+                    <a href="../index.html#projects" class="btn btn-secondary">View More Projects</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Christian Emmanuelle Agustin. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+            if (!isTouchDevice) {
+                const cursor = document.querySelector('.cursor');
+                const follower = document.querySelector('.cursor-follower');
+                let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0, followerX = 0, followerY = 0;
+                document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
+                function animateCursor() {
+                    cursorX += (mouseX - cursorX) * 0.2; cursorY += (mouseY - cursorY) * 0.2;
+                    followerX += (mouseX - followerX) * 0.1; followerY += (mouseY - followerY) * 0.1;
+                    cursor.style.left = cursorX + 'px'; cursor.style.top = cursorY + 'px';
+                    follower.style.left = (followerX - 10) + 'px'; follower.style.top = (followerY - 10) + 'px';
+                    requestAnimationFrame(animateCursor);
+                }
+                animateCursor();
+                document.querySelectorAll('a, button, .stat-card').forEach(el => {
+                    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+                });
+            }
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
