@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" width="1200" height="750">
+<defs><pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.3" fill="#2c2c33"/></pattern></defs>
+<rect width="1200" height="750" fill="#18181c"/>
+<rect width="1200" height="750" fill="url(#dots)"/>
+<path d="M182.0,355.0 C222.0,355.0 218.0,151.66666666666666 258.0,151.66666666666666" fill="none" stroke="#7a7a85" stroke-width="2.2"/>
+<path d="M182.0,355.0 C222.0,355.0 218.0,355.0 258.0,355.0" fill="none" stroke="#7a7a85" stroke-width="2.2"/>
+<path d="M182.0,355.0 C222.0,355.0 218.0,558.3333333333334 258.0,558.3333333333334" fill="none" stroke="#7a7a85" stroke-width="2.2"/>
+<path d="M362.0,151.66666666666666 C402.0,151.66666666666666 398.0,355.0 438.0,355.0" fill="none" stroke="#7a7a85" stroke-width="2.2"/>
+<path d="M362.0,355.0 C402.0,355.0 398.0,355.0 438.0,355.0" fill="none" stroke="#7a7a85" stroke-width="2.2"/>
+<path d="M362.0,558.3333333333334 C402.0,558.3333333333334 398.0,355.0 438.0,355.0" fill="none" stroke="#7a7a85" stroke-width="2.2"/>
+<path d="M542.0,355.0 C582.0,355.0 578.0,355.0 618.0,355.0" fill="none" stroke="#7a7a85" stroke-width="2.2"/>
+<path d="M722.0,355.0 C762.0,355.0 758.0,355.0 798.0,355.0" fill="none" stroke="#7a7a85" stroke-width="2.2"/>
+<path d="M902.0,355.0 C942.0,355.0 938.0,355.0 978.0,355.0" fill="none" stroke="#7a7a85" stroke-width="2.2"/>
+<g transform="translate(78.0,303.0)">
+<rect width="104" height="104" rx="14" fill="#2a2a2e" stroke="#4a4a52" stroke-width="2"/>
+<text x="52.0" y="63.333333333333336" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="34" fill="#38bdf8">T</text>
+<circle cx="0" cy="52.0" r="5" fill="#6b6b75"/><circle cx="104" cy="52.0" r="5" fill="#6b6b75"/>
+<text x="52.0" y="130" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="600" font-size="18" fill="#f1f5f9">Daily</text>
+</g>
+<g transform="translate(258.0,99.66666666666666)">
+<rect width="104" height="104" rx="14" fill="#2a2a2e" stroke="#4a4a52" stroke-width="2"/>
+<text x="52.0" y="59.0" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="21" fill="#a78bfa">API</text>
+<circle cx="0" cy="52.0" r="5" fill="#6b6b75"/><circle cx="104" cy="52.0" r="5" fill="#6b6b75"/>
+<text x="52.0" y="130" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="600" font-size="18" fill="#f1f5f9">CRM Records</text>
+</g>
+<g transform="translate(258.0,303.0)">
+<rect width="104" height="104" rx="14" fill="#2a2a2e" stroke="#4a4a52" stroke-width="2"/>
+<text x="52.0" y="63.333333333333336" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="34" fill="#22c55e">S</text>
+<circle cx="0" cy="52.0" r="5" fill="#6b6b75"/><circle cx="104" cy="52.0" r="5" fill="#6b6b75"/>
+<text x="52.0" y="130" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="600" font-size="18" fill="#f1f5f9">Campaign Data</text>
+<text x="52.0" y="151" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="13" fill="#8b8b95">read: sheet</text>
+</g>
+<g transform="translate(258.0,506.33333333333337)">
+<rect width="104" height="104" rx="14" fill="#2a2a2e" stroke="#4a4a52" stroke-width="2"/>
+<text x="52.0" y="63.333333333333336" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="34" fill="#22c55e">S</text>
+<circle cx="0" cy="52.0" r="5" fill="#6b6b75"/><circle cx="104" cy="52.0" r="5" fill="#6b6b75"/>
+<text x="52.0" y="130" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="600" font-size="18" fill="#f1f5f9">Merchant List</text>
+<text x="52.0" y="151" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="13" fill="#8b8b95">read: sheet</text>
+</g>
+<g transform="translate(438.0,303.0)">
+<rect width="104" height="104" rx="14" fill="#2a2a2e" stroke="#4a4a52" stroke-width="2"/>
+<text x="52.0" y="59.0" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="21" fill="#f59e0b">{ }</text>
+<circle cx="0" cy="52.0" r="5" fill="#6b6b75"/><circle cx="104" cy="52.0" r="5" fill="#6b6b75"/>
+<text x="52.0" y="130" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="600" font-size="18" fill="#f1f5f9">Hashmap Join</text>
+</g>
+<g transform="translate(618.0,303.0)">
+<rect width="104" height="104" rx="14" fill="#2a2a2e" stroke="#4a4a52" stroke-width="2"/>
+<text x="52.0" y="59.0" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="21" fill="#f59e0b">{ }</text>
+<circle cx="0" cy="52.0" r="5" fill="#6b6b75"/><circle cx="104" cy="52.0" r="5" fill="#6b6b75"/>
+<text x="52.0" y="130" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="600" font-size="18" fill="#f1f5f9">Smart Merge</text>
+</g>
+<g transform="translate(798.0,303.0)">
+<rect width="104" height="104" rx="14" fill="#2a2a2e" stroke="#4a4a52" stroke-width="2"/>
+<text x="52.0" y="60.666666666666664" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="26" fill="#34d399">IF</text>
+<circle cx="0" cy="52.0" r="5" fill="#6b6b75"/><circle cx="104" cy="52.0" r="5" fill="#6b6b75"/>
+<text x="52.0" y="130" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="600" font-size="18" fill="#f1f5f9">Changed?</text>
+</g>
+<g transform="translate(978.0,303.0)">
+<rect width="104" height="104" rx="14" fill="#2a2a2e" stroke="#4a4a52" stroke-width="2"/>
+<text x="52.0" y="63.333333333333336" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="34" fill="#22c55e">S</text>
+<circle cx="0" cy="52.0" r="5" fill="#6b6b75"/><circle cx="104" cy="52.0" r="5" fill="#6b6b75"/>
+<text x="52.0" y="130" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="600" font-size="18" fill="#f1f5f9">Mastersheet</text>
+<text x="52.0" y="151" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="13" fill="#8b8b95">update: sheet</text>
+</g>
+</svg>

@@ -1138,6 +1138,7 @@
                         <span class="skill-item">Prompt Engineering</span>
                         <span class="skill-item">Flowise</span>
                         <span class="skill-item">Zapier</span>
+                        <span class="skill-item">Claude</span>
                     </div>
                 </div>
 
@@ -1153,6 +1154,7 @@
                         <span class="skill-item">Klaviyo</span>
                         <span class="skill-item">Looker</span>
                         <span class="skill-item">Jira</span>
+                        <span class="skill-item">Notion</span>
                     </div>
                 </div>
 
@@ -1168,6 +1170,8 @@
                         <span class="skill-item">Google Analytics</span>
                         <span class="skill-item">Slack API</span>
                         <span class="skill-item">Gmail API</span>
+                        <span class="skill-item">ManyChat</span>
+                        <span class="skill-item">Google Calendar API</span>
                     </div>
                 </div>
 
@@ -1182,6 +1186,22 @@
                         <span class="skill-item">Jina AI</span>
                         <span class="skill-item">Google Maps API</span>
                         <span class="skill-item">Structured Output</span>
+                    </div>
+                </div>
+
+                <div class="skill-card reveal">
+                    <h3>
+                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/></svg>
+                        Infrastructure &amp; Deploy
+                    </h3>
+                    <div class="skill-list">
+                        <span class="skill-item">Docker</span>
+                        <span class="skill-item">Caddy</span>
+                        <span class="skill-item">Linux VPS</span>
+                        <span class="skill-item">Node.js</span>
+                        <span class="skill-item">Next.js</span>
+                        <span class="skill-item">Supabase</span>
+                        <span class="skill-item">Vercel</span>
                     </div>
                 </div>
             </div>
@@ -1221,7 +1241,28 @@
 
             <div class="timeline">
                 <div class="timeline-item reveal">
-                    <div class="timeline-date">2023 – Present</div>
+                    <div class="timeline-date">2026 – Present</div>
+                    <h3>Founder &amp; Automation Architect</h3>
+                    <div class="timeline-company">Workchestra, Business Automation Agency, Philippines</div>
+                    <ul>
+                        <li>Delivered a four-part recruitment and workforce analytics system for a Philippine manpower agency: AI recruiter inbox, round-robin intake and interview pipeline, and an hourly executive dashboard</li>
+                        <li>Self-host the delivery stack (n8n, Docker and Caddy on a managed VPS) with per-client dashboards behind HTTPS</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-date">June 2026 – Present</div>
+                    <h3>AI Automation Specialist &amp; Engagement Manager</h3>
+                    <div class="timeline-company">Executive Coaching Firm, United States</div>
+                    <ul>
+                        <li>Built the firm's AI scheduling, session intelligence and attendance systems on n8n and Notion, rolled out to the full coaching team</li>
+                        <li>Migrated 3 TB of session recordings to cloud storage on a self-built, always-on server with no new license costs</li>
+                        <li>Run day-to-day executive operations for the CEO across calendar, scheduling and inbox</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-date">2023 – 2026</div>
                     <h3>Digital Marketing Specialist — Merchant Growth</h3>
                     <div class="timeline-company">Regional Marketplace, Singapore & Hong Kong</div>
                     <ul>
@@ -1301,6 +1342,66 @@
         // Projects Data with Image Paths and Case Study Links
         const projects = [
             {
+                id: 'P-016',
+                title: 'AI Recruiter Inbox Assistant',
+                category: 'ai',
+                image: 'assets/images/project-016-ai-recruiter-inbox.svg',
+                link: 'case-studies/case-study-p016.html',
+                tools: ['n8n', 'GPT-4o', 'ManyChat', 'Messenger', 'Google Sheets'],
+                description: 'An AI recruiter that runs a staffing agency\'s Facebook and Instagram inbox in Taglish, collects applicant details across messages, answers only from an approved knowledge base, and hands complete applicants to a human.',
+                outcome: 'Every complete applicant gets closure and lands in a recruiter\'s sheet automatically. Quiet applicants get two timed nudges.'
+            },
+            {
+                id: 'P-017',
+                title: 'Recruitment Intake & Interview Pipeline',
+                category: 'ops',
+                image: 'assets/images/project-017-recruitment-pipeline.svg',
+                link: 'case-studies/case-study-p017.html',
+                tools: ['n8n', 'Google Sheets', 'Google Forms', 'Apps Script'],
+                description: 'Three lead sources unified into one flow: lead IDs, fair round-robin assignment, prefilled interview links, locked outcomes, and one standard intake template across eight recruiters.',
+                outcome: '1,200+ candidates routed and traceable from first contact to orientation, with zero retyping.'
+            },
+            {
+                id: 'P-018',
+                title: 'Executive Workforce Dashboard',
+                category: 'ops',
+                image: 'assets/images/project-018-workforce-dashboard.svg',
+                link: 'case-studies/case-study-p018.html',
+                tools: ['n8n', 'SheetJS', 'Docker', 'Caddy', 'HTML/JS'],
+                description: 'A hand-maintained 21-tab Excel workbook and eight recruiter sheets turned into an hourly dashboard with month-on-month comparisons, a recruitment funnel, and a weekly emailed report.',
+                outcome: 'Comparative reporting on any period with zero changes to the client\'s workflow. Surfaced retention as the real lever.'
+            },
+            {
+                id: 'P-019',
+                title: 'AI Scheduling Pipeline for a CEO',
+                category: 'ai',
+                image: 'assets/images/project-019-ai-scheduling.svg',
+                link: 'case-studies/case-study-p019.html',
+                tools: ['n8n', 'Notion', 'Gmail API', 'Google Calendar', 'Claude'],
+                description: 'Six connected workflows on one Notion database: scheduling emails captured, three ranked slots from real rules and calendar, stalled-thread drafts, and weekly attendance reconciliation.',
+                outcome: 'One source of truth for every scheduling thread and client session. Nothing sends without review.'
+            },
+            {
+                id: 'P-020',
+                title: 'Coaching Session Intelligence & QA',
+                category: 'ai',
+                image: 'assets/images/project-020-session-intelligence.svg',
+                link: 'case-studies/case-study-p020.html',
+                tools: ['n8n', 'Claude', 'Notion', 'Gmail API', 'Fathom'],
+                description: 'Session transcripts turned into discussion points, overviews and tracked follow-ups, with a QA agent checking every summary against the transcript before a coach sees it.',
+                outcome: 'Same-day overviews rolled out to every coach, checked across eight hallucination categories.'
+            },
+            {
+                id: 'P-021',
+                title: '3 TB Recording Archive Migration',
+                category: 'ops',
+                image: 'assets/images/project-021-archive-migration.svg',
+                link: 'case-studies/case-study-p021.html',
+                tools: ['Node.js', 'Zoom API', 'Box API', 'Slack API'],
+                description: 'A self-built, always-on server that streamed seven years of session recordings into cloud storage, resumable from a ledger and monitored with heartbeats and daily updates.',
+                outcome: '3.04 TB and 36,118 files moved with $0 in new software licenses.'
+            },
+            {
                 id: 'P-001',
                 title: 'FB Ads Intelligence System',
                 category: 'marketing',
@@ -1354,7 +1455,7 @@
                 id: 'P-006',
                 title: 'FB Lead Ads to CRM Routing System',
                 category: 'ops',
-                image: 'assets/images/project-006-fb-lead-routing.png',
+                image: 'assets/images/project-006-fb-lead-routing.svg',
                 link: 'case-studies/case-study-p006.html',
                 tools: ['n8n', 'Facebook Lead Ads', 'Salesforce', 'Slack API'],
                 description: 'From Facebook ad click to CRM record in under 60 seconds — with automatic round-robin assignment, deduplication, and instant team notifications.',
@@ -1364,7 +1465,7 @@
                 id: 'P-009',
                 title: 'AI-Powered Lead Scraper: Singapore',
                 category: 'ai',
-                image: 'assets/images/project-009-lead-scraper-sg.png',
+                image: 'assets/images/project-009-lead-scraper-sg.svg',
                 link: 'case-studies/case-study-p009.html',
                 tools: ['n8n', 'Apify', 'Jina AI', 'SerpAPI', 'Google Sheets'],
                 description: 'A five-workflow pipeline that discovers, enriches, validates, and deduplicates business leads from scratch — existing clients automatically excluded.',
@@ -1374,7 +1475,7 @@
                 id: 'P-010',
                 title: 'Lead Scraper: Hong Kong Variant',
                 category: 'ai',
-                image: 'assets/images/project-010-lead-scraper-hk.png',
+                image: 'assets/images/project-010-lead-scraper-hk.svg',
                 link: 'case-studies/case-study-p010.html',
                 tools: ['n8n', 'Apify', 'Jina AI', 'HK Companies Registry API', 'Google Sheets'],
                 description: 'The same five-workflow architecture as the Singapore scraper, rebuilt for Hong Kong with Traditional Chinese queries, HK phone validation, and the free Companies Registry API.',
@@ -1384,7 +1485,7 @@
                 id: 'P-011',
                 title: 'Live Seller Mastersheet Populator',
                 category: 'ops',
-                image: 'assets/images/project-011-mastersheet.png',
+                image: 'assets/images/project-011-mastersheet.svg',
                 link: 'case-studies/case-study-p011.html',
                 tools: ['n8n', 'Google Sheets', 'Salesforce', 'JavaScript Code Nodes'],
                 description: 'In-memory hashmap joins across three data sources — CRM, campaign data, and merchant list — with smart merge logic and change detection before every write.',
@@ -1394,7 +1495,7 @@
                 id: 'P-012',
                 title: 'Real-Time Form Submission Verifier',
                 category: 'ops',
-                image: 'assets/images/project-012-form-checker.png',
+                image: 'assets/images/project-012-form-checker.svg',
                 link: 'case-studies/case-study-p012.html',
                 tools: ['n8n', 'Google Forms', 'Google Sheets'],
                 description: 'Event-driven verification that fires the moment a seller submits an interest form — checks against the active subscriber list and writes the result back in under 2 seconds.',
@@ -1404,7 +1505,7 @@
                 id: 'P-013',
                 title: 'ChrisBot: Slack Workload Manager',
                 category: 'ai',
-                image: 'assets/images/project-013-chrisbot.png',
+                image: 'assets/images/project-013-chrisbot.svg',
                 link: 'case-studies/case-study-p013.html',
                 tools: ['n8n', 'Slack API', 'OpenAI GPT-4o', 'Google Calendar'],
                 description: 'A Slack-native AI agent that intercepts work requests, sends intelligent acknowledgments on your behalf, and schedules tasks as calendar blocks — so deep work stays protected.',
@@ -1414,7 +1515,7 @@
                 id: 'P-014',
                 title: 'Voice-to-Email Executive Automation',
                 category: 'ai',
-                image: 'assets/images/project-014-voice-email.png',
+                image: 'assets/images/project-014-voice-email.svg',
                 link: 'case-studies/case-study-p014.html',
                 tools: ['n8n', 'OpenAI Whisper', 'GPT-4o', 'Gmail API'],
                 description: 'A 9-node pipeline that transcribes voice recordings, extracts context, drafts a complete professional email, and saves it to Gmail — ready to review and send in under 30 seconds.',
@@ -1601,7 +1702,7 @@
                 
                 card.innerHTML = `
                     <div class="project-image">
-                        <img src="${project.image}" alt="${project.title} Workflow Screenshot" loading="lazy">
+                        <img src="${project.image}" alt="${project.title} Workflow Screenshot" loading="lazy" onerror="this.remove()">
                     </div>
                     <div class="project-content">
                         <div class="project-id">${project.id}</div>
