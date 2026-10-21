@@ -127,6 +127,24 @@
         .proof-links a { color: var(--accent); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: .4rem; }
         .proof-links a:hover { text-decoration: underline; }
 
+        /* Getting started */
+        .start-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 3.5rem; margin-top: 3rem; align-items: start; }
+        .start-grid h3 { font-size: 1.25rem; margin-bottom: 1.5rem; }
+        .tl { position: relative; display: grid; gap: 1.75rem; padding-left: 2rem; }
+        .tl::before { content: ''; position: absolute; left: 7px; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(var(--accent), rgba(6,182,212,.15)); }
+        .tl-item { position: relative; }
+        .tl-item::before { content: ''; position: absolute; left: -2rem; top: 5px; width: 16px; height: 16px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); }
+        .tl-item .when { font-size: .85rem; font-weight: 600; color: var(--accent); }
+        .tl-item h4 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; margin: .1rem 0 .3rem; }
+        .tl-item p { color: var(--muted); font-size: .97rem; }
+        .pay { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); padding: 2rem; }
+        .pay-row { display: flex; gap: 1rem; align-items: flex-start; padding: 1.1rem 0; }
+        .pay-row + .pay-row { border-top: 1px solid var(--line); }
+        .pay-row i { font-size: 1.5rem; color: var(--accent); flex-shrink: 0; margin-top: .1rem; }
+        .pay-row b { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; margin-bottom: .2rem; }
+        .pay-row span { color: var(--muted); font-size: .95rem; }
+        .pay-note { margin-top: 1.25rem; font-size: .92rem; color: var(--muted); }
+
         /* FAQ */
         .faq { max-width: 780px; margin-top: 2.5rem; }
         details { border-bottom: 1px solid var(--line); }
@@ -154,6 +172,7 @@
             .bento { grid-template-columns: 1fr 1fr; }
             .c-wide, .c-tall, .c-3, .c-2 { grid-column: span 2; grid-row: auto; }
             .stats { grid-template-columns: 1fr 1fr; }
+            .start-grid { grid-template-columns: 1fr; gap: 2.5rem; }
             .demo-grid { gap: 2.5rem; }
         }
         @media (max-width: 560px) {
@@ -161,7 +180,7 @@
             section { padding: 4rem 0; }
             .hero { padding: 3rem 0 4rem; }
             .steps { grid-template-columns: 1fr; }
-            .ba > div, .final-box { padding: 1.6rem; }
+            .ba > div, .final-box, .pay { padding: 1.6rem; }
             .chat { height: 400px; }
             .nav-in .btn-sm { display: none; }
         }
@@ -313,6 +332,32 @@
         </div>
     </section>
 
+    <section id="start">
+        <div class="wrap">
+            <h2 class="reveal">Live in 3 to 4 weeks.</h2>
+            <p class="lead reveal">Every setup is fitted to your hiring process, so the scope and price are agreed in writing before any work starts.</p>
+            <div class="start-grid">
+                <div class="reveal">
+                    <h3>How setup usually runs</h3>
+                    <div class="tl">
+                        <div class="tl-item"><div class="when">Week 1</div><h4>Map your process</h4><p>We agree on the details to collect, your approved answers, and where applicants should land.</p></div>
+                        <div class="tl-item"><div class="when">Week 2</div><h4>Build and connect</h4><p>I connect your Facebook Page, Instagram and sheet, and set up the replies in your tone.</p></div>
+                        <div class="tl-item"><div class="when">Week 3</div><h4>Test on real messages</h4><p>It first runs in listen-only mode on your real inbox, so we can check every result before it speaks.</p></div>
+                        <div class="tl-item"><div class="when">Week 4</div><h4>Go live</h4><p>Replies switch on, your team gets a walkthrough, and we tune it from the first week of real chats.</p></div>
+                    </div>
+                </div>
+                <div class="pay reveal">
+                    <h3>What you pay for</h3>
+                    <div class="pay-row"><i class="ph ph-wrench"></i><div><b>One-time setup</b><span>Building and fitting it to your process. 50% to start, once the scope is signed.</span></div></div>
+                    <div class="pay-row"><i class="ph ph-lifebuoy"></i><div><b>Monthly support</b><span>Monitoring, fixes, new approved answers, and changes as your hiring needs shift.</span></div></div>
+                    <div class="pay-row"><i class="ph ph-cpu"></i><div><b>AI usage, on your account</b><span>Paid directly to the AI provider. Usually less than one peso per conversation.</span></div></div>
+                    <div class="pay-row"><i class="ph ph-chats-circle"></i><div><b>Messaging platform, on your account</b><span>A monthly subscription you own, which I help you set up.</span></div></div>
+                    <p class="pay-note">You get a written quote after a short call about your volume and process.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="faq">
         <div class="wrap">
             <h2 class="reveal">Questions business owners ask</h2>
@@ -331,7 +376,7 @@
                 </details>
                 <details>
                     <summary>Is it expensive to run? <i class="ph ph-plus"></i></summary>
-                    <p>The AI itself costs less than one peso per conversation. The messaging platform has its own subscription, which I help you set up.</p>
+                    <p>Running costs are small and paid on your own accounts: the AI usually costs less than one peso per conversation, plus the messaging platform subscription. Setup and monthly support are quoted after a short call.</p>
                 </details>
                 <details>
                     <summary>Is it only for recruitment? <i class="ph ph-plus"></i></summary>
