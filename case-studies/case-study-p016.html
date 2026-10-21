@@ -3,223 +3,473 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>P-016: AI Recruiter Inbox Assistant | Christian Emmanuelle Agustin</title>
+    <title>AI Recruiter Inbox Assistant | Christian Emmanuelle Agustin</title>
+    <meta name="description" content="An AI recruiter that answers every applicant on Facebook and Instagram, collects complete details, and hands them to your recruitment team.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
     <style>
         :root {
-            --primary: #0a0e27;
-            --secondary: #1e293b;
+            --bg: #0a0e27;
+            --bg-2: #0f1533;
+            --panel: #141b3d;
+            --line: rgba(255, 255, 255, 0.09);
             --accent: #06b6d4;
-            --accent-glow: #06b6d440;
-            --gold: #fbbf24;
-            --text: #f8fafc;
-            --text-muted: #94a3b8;
-            --border: rgba(255, 255, 255, 0.1);
-            --glass: rgba(30, 41, 59, 0.7);
+            --accent-soft: rgba(6, 182, 212, 0.12);
+            --text: #f1f5f9;
+            --muted: #94a3b8;
+            --radius: 16px;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', sans-serif; background: var(--primary); color: var(--text); overflow-x: hidden; cursor: none; line-height: 1.7; }
-        h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; line-height: 1.2; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.65; overflow-x: hidden; }
+        h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
+        a { color: inherit; }
+        .wrap { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
 
-        .cursor { width: 20px; height: 20px; border: 2px solid var(--accent); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transition: transform 0.15s ease-out; mix-blend-mode: difference; }
-        .cursor-follower { width: 40px; height: 40px; background: var(--accent-glow); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transition: transform 0.3s ease-out; }
-        .cursor.hover { transform: scale(1.5); background: rgba(6, 182, 212, 0.3); }
-        @media (pointer: coarse) { .cursor, .cursor-follower { display: none !important; } body { cursor: auto !important; } }
+        /* Nav */
+        nav { position: sticky; top: 0; z-index: 100; background: rgba(10, 14, 39, 0.88); backdrop-filter: blur(16px); border-bottom: 1px solid var(--line); }
+        .nav-in { height: 68px; display: flex; align-items: center; justify-content: space-between; }
+        .back { display: inline-flex; align-items: center; gap: .5rem; color: var(--muted); text-decoration: none; font-weight: 500; font-size: .95rem; }
+        .back:hover { color: var(--text); }
+        .btn { display: inline-flex; align-items: center; gap: .6rem; padding: .85rem 1.5rem; border-radius: 999px; font-weight: 600; text-decoration: none; white-space: nowrap; transition: transform .2s cubic-bezier(.16,1,.3,1), background .2s, border-color .2s; }
+        .btn:active { transform: translateY(1px) scale(.98); }
+        .btn-primary { background: var(--accent); color: #032027; }
+        .btn-primary:hover { background: #22d3ee; }
+        .btn-ghost { border: 1px solid var(--line); color: var(--text); }
+        .btn-ghost:hover { border-color: var(--accent); }
+        .btn-sm { padding: .55rem 1.1rem; font-size: .9rem; }
 
-        nav { position: fixed; top: 0; width: 100%; padding: 1.5rem 0; z-index: 1000; background: rgba(10, 14, 39, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
-        .nav-container { max-width: 1400px; margin: 0 auto; padding: 0 3rem; display: flex; justify-content: space-between; align-items: center; }
-        .back-link { display: inline-flex; align-items: center; gap: 0.75rem; color: var(--text-muted); text-decoration: none; font-weight: 500; transition: all 0.3s; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--border); }
-        .back-link:hover { color: var(--text); border-color: var(--accent); background: rgba(6, 182, 212, 0.1); }
-        .logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        /* Hero */
+        .hero { padding: 4.5rem 0 5rem; background: radial-gradient(70% 80% at 85% 20%, rgba(6,182,212,.16), transparent 60%); }
+        .hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 3.5rem; align-items: center; }
+        .tag { display: inline-block; font-size: .8rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.25rem; }
+        .hero h1 { font-size: clamp(2.3rem, 4.2vw, 3.4rem); margin-bottom: 1.25rem; }
+        .hero p.sub { font-size: 1.2rem; color: var(--muted); max-width: 32ch; margin-bottom: 2rem; }
+        .ctas { display: flex; gap: .9rem; flex-wrap: wrap; }
 
-        .case-hero { padding: 12rem 0 6rem; background: linear-gradient(180deg, rgba(6, 182, 212, 0.1) 0%, var(--primary) 100%); border-bottom: 1px solid var(--border); }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 3rem; }
-        .case-meta { display: flex; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; align-items: center; }
-        .case-tag { padding: 0.5rem 1rem; background: rgba(6, 182, 212, 0.1); border: 1px solid var(--accent); border-radius: 9999px; color: var(--accent); font-size: 0.875rem; font-weight: 600; }
-        .case-id { color: var(--gold); font-weight: 700; font-size: 0.875rem; letter-spacing: 0.1em; }
-        .case-hero h1 { font-size: 3.5rem; margin-bottom: 1.5rem; background: linear-gradient(135deg, #fff 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -1px; }
-        .case-headline { font-size: 1.25rem; color: var(--text-muted); font-weight: 400; line-height: 1.6; max-width: 900px; }
+        /* Phone + chat */
+        .phone { width: 100%; max-width: 380px; margin: 0 auto; background: #fff; border: 10px solid #0b0f1f; border-radius: 38px; box-shadow: 0 40px 90px rgba(2, 8, 30, .7), 0 0 0 1px var(--line); overflow: hidden; color: #0f172a; }
+        .ph-top { display: flex; align-items: center; gap: .75rem; padding: 1rem 1.1rem .8rem; border-bottom: 1px solid #e5e7eb; }
+        .ph-av { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #06b6d4, #0e7490); color: #fff; display: grid; place-items: center; font-size: 1.1rem; }
+        .ph-name { font-weight: 700; font-size: 1rem; line-height: 1.2; }
+        .ph-st { font-size: .78rem; color: #059669; font-weight: 600; }
+        .chat { height: 450px; padding: .9rem; display: flex; flex-direction: column; gap: .5rem; overflow: hidden; background: #fff; }
+        .chat > * { flex-shrink: 0; }
+        .msg { max-width: 82%; padding: .6rem .85rem; border-radius: 18px; font-size: .92rem; line-height: 1.4; opacity: 0; transform: translateY(8px); transition: opacity .35s ease, transform .35s cubic-bezier(.16,1,.3,1); }
+        .msg.show { opacity: 1; transform: none; }
+        .in { align-self: flex-end; background: #0866ff; color: #fff; border-bottom-right-radius: 6px; }
+        .out { align-self: flex-start; background: #f0f2f5; border-bottom-left-radius: 6px; }
+        .note { align-self: center; font-size: .72rem; font-weight: 600; color: #94a3b8; opacity: 0; transition: opacity .35s; }
+        .note.show { opacity: 1; }
+        .result { align-self: center; margin-top: .25rem; display: inline-flex; align-items: center; gap: .4rem; font-size: .8rem; font-weight: 700; color: #065f46; background: #d1fae5; border-radius: 999px; padding: .35rem .8rem; opacity: 0; transition: opacity .35s; }
+        .result.show { opacity: 1; }
+        .typing { align-self: flex-start; background: #f0f2f5; border-radius: 18px; padding: .65rem .85rem; display: none; gap: 4px; }
+        .typing.show { display: inline-flex; }
+        .typing i { width: 7px; height: 7px; border-radius: 50%; background: #94a3b8; animation: blink 1s infinite; }
+        .typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
+        @keyframes blink { 0%, 100% { opacity: .3; } 50% { opacity: 1; } }
 
-        .case-content { padding: 6rem 0; }
-        .section { margin-bottom: 4rem; }
-        .section h2 { font-size: 2rem; margin-bottom: 1.5rem; color: var(--text); }
-        .section p { color: var(--text-muted); font-size: 1.05rem; margin-bottom: 1rem; line-height: 1.8; }
+        section { padding: 6rem 0; }
+        h2 { font-size: clamp(1.9rem, 3.2vw, 2.6rem); margin-bottom: 1rem; max-width: 30ch; }
+        .lead { color: var(--muted); font-size: 1.1rem; max-width: 58ch; }
 
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin: 3rem 0; }
-        .stat-card { background: var(--glass); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; text-align: center; backdrop-filter: blur(10px); }
-        .stat-card .stat-number { display: block; font-size: 2.5rem; font-weight: 700; color: var(--accent); font-family: 'Space Grotesk', sans-serif; }
-        .stat-card .stat-label { font-size: 0.875rem; color: var(--text-muted); margin-top: 0.5rem; display: block; }
+        /* Before / after */
+        .ba { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 3rem; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+        .ba > div { padding: 2.2rem; }
+        .ba .without { background: var(--bg-2); }
+        .ba .with { background: linear-gradient(160deg, rgba(6,182,212,.14), rgba(6,182,212,.03)); border-left: 1px solid var(--line); }
+        .ba h3 { font-size: 1.15rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: .6rem; }
+        .ba .without h3 { color: var(--muted); }
+        .ba ul { list-style: none; display: grid; gap: 1rem; }
+        .ba li { display: flex; gap: .75rem; align-items: flex-start; font-size: 1rem; }
+        .ba .without li { color: var(--muted); }
+        .ba li i { font-size: 1.2rem; flex-shrink: 0; margin-top: .15rem; }
+        .ba .without li i { color: #64748b; } .ba .with li i { color: var(--accent); }
 
-        .flow-container { background: var(--secondary); border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem; margin: 2rem 0; overflow-x: auto; }
-        .flow-diagram { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: center; }
-        .flow-step { background: rgba(6, 182, 212, 0.1); border: 1px solid var(--accent); border-radius: 8px; padding: 0.75rem 1.25rem; font-size: 0.9rem; font-weight: 600; color: var(--accent); white-space: nowrap; }
-        .flow-arrow { color: var(--gold); font-size: 1.25rem; font-weight: 700; }
+        /* Demo */
+        .demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-top: 3rem; }
+        .tabs { display: grid; gap: .75rem; }
+        .tab { text-align: left; background: transparent; border: 1px solid var(--line); border-radius: var(--radius); padding: 1.2rem 1.4rem; color: var(--text); cursor: pointer; font: inherit; transition: border-color .2s, background .2s; }
+        .tab:hover { border-color: rgba(6,182,212,.5); }
+        .tab[aria-selected="true"] { border-color: var(--accent); background: var(--accent-soft); }
+        .tab b { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; margin-bottom: .2rem; }
+        .tab span { color: var(--muted); font-size: .95rem; }
 
-        .phase-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
-        .phase-table tr { border-bottom: 1px solid var(--border); }
-        .phase-table tr:last-child { border-bottom: none; }
-        .phase-table td { padding: 1.2rem 1rem; vertical-align: top; font-size: 0.95rem; line-height: 1.7; }
-        .phase-table td:first-child { color: var(--accent); font-weight: 700; white-space: nowrap; width: 180px; font-family: 'Space Grotesk', sans-serif; }
-        .phase-table td:last-child { color: var(--text-muted); }
-        .phase-table tr:hover td { background: rgba(6, 182, 212, 0.04); }
+        /* Steps */
+        .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 3.5rem; position: relative; }
+        .steps::before { content: ''; position: absolute; top: 27px; left: 8%; right: 8%; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: .5; }
+        .step { position: relative; }
+        .step .ic { width: 56px; height: 56px; border-radius: 50%; background: var(--bg); border: 1px solid var(--accent); display: grid; place-items: center; color: var(--accent); font-size: 1.5rem; margin-bottom: 1.25rem; position: relative; }
+        .step h3 { font-size: 1.2rem; margin-bottom: .5rem; }
+        .step p { color: var(--muted); font-size: .97rem; }
 
-        .tools-list { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1.5rem 0; }
-        .tool-item { padding: 0.4rem 1rem; background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 9999px; color: var(--gold); font-size: 0.875rem; font-weight: 500; }
+        /* Bento */
+        .bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem; margin-top: 3rem; }
+        .cell { border: 1px solid var(--line); border-radius: var(--radius); padding: 1.8rem; background: var(--panel); }
+        .cell i.ph { font-size: 1.6rem; color: var(--accent); margin-bottom: 1rem; display: block; }
+        .cell h3 { font-size: 1.2rem; margin-bottom: .5rem; }
+        .cell p { color: var(--muted); font-size: .97rem; }
+        .c-wide { grid-column: span 4; } .c-tall { grid-column: span 2; grid-row: span 2; } .c-3 { grid-column: span 3; } .c-2 { grid-column: span 2; }
+        .c-accent { background: linear-gradient(150deg, rgba(6,182,212,.22), rgba(6,182,212,.04)); border-color: rgba(6,182,212,.35); }
+        .c-pattern { background-color: var(--panel); background-image: radial-gradient(rgba(6,182,212,.18) 1px, transparent 1px); background-size: 16px 16px; }
+        .quote-bubble { margin-top: 1.2rem; background: #f0f2f5; color: #0f172a; border-radius: 18px 18px 18px 6px; padding: .8rem 1rem; font-size: .92rem; line-height: 1.45; }
+        .quote-bubble + .quote-bubble { margin-top: .6rem; }
 
-        .outcome-box { background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(251, 191, 36, 0.05)); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 20px; padding: 3rem; margin: 3rem 0; }
-        .outcome-box h3 { font-size: 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; color: var(--text); }
-        .outcome-box ul { list-style: none; }
-        .outcome-box ul li { padding: 0.75rem 0; color: var(--text-muted); border-bottom: 1px solid var(--border); display: flex; gap: 1rem; align-items: flex-start; font-size: 0.95rem; line-height: 1.7; }
-        .outcome-box ul li:last-child { border-bottom: none; }
-        .outcome-box ul li::before { content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: 0.1rem; }
+        /* Proof */
+        .proof { background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+        .stats { display: grid; grid-template-columns: repeat(4, 1fr); margin: 3rem 0 2.5rem; border-top: 1px solid var(--line); }
+        .stat { padding: 1.8rem 1.5rem 0 0; }
+        .stat b { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 2.6rem; color: var(--accent); line-height: 1.1; }
+        .stat span { color: var(--muted); font-size: .95rem; }
+        .proof-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        .proof-links a { color: var(--accent); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: .4rem; }
+        .proof-links a:hover { text-decoration: underline; }
 
-        blockquote { border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; margin: 2rem 0; background: rgba(6, 182, 212, 0.05); border-radius: 0 8px 8px 0; }
-        blockquote p { color: var(--text); font-style: italic; font-size: 1.1rem; margin: 0; }
+        /* FAQ */
+        .faq { max-width: 780px; margin-top: 2.5rem; }
+        details { border-bottom: 1px solid var(--line); }
+        summary { list-style: none; cursor: pointer; padding: 1.4rem 0; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 1.15rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+        summary::-webkit-details-marker { display: none; }
+        summary i { color: var(--accent); transition: transform .25s; flex-shrink: 0; }
+        details[open] summary i { transform: rotate(45deg); }
+        details p { color: var(--muted); padding: 0 0 1.4rem; max-width: 65ch; }
 
-        .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0; }
-        .detail-item { background: var(--secondary); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
-        .detail-item .detail-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
-        .detail-item .detail-value { color: var(--text); font-size: 0.95rem; line-height: 1.6; }
+        /* Final CTA */
+        .final { text-align: left; }
+        .final-box { border: 1px solid rgba(6,182,212,.35); border-radius: 24px; padding: 3.5rem; background: radial-gradient(80% 120% at 100% 0%, rgba(6,182,212,.2), transparent 60%), var(--panel); display: grid; grid-template-columns: 1.4fr auto; gap: 2rem; align-items: center; }
+        .final-box p { color: var(--muted); margin-top: .5rem; max-width: 48ch; }
 
-        .case-cta { text-align: center; padding: 5rem 0 2rem; }
-        .case-cta h3 { font-size: 2rem; margin-bottom: 1rem; }
-        .case-cta p { color: var(--text-muted); margin-bottom: 2rem; }
-        .btn { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem; background: linear-gradient(135deg, var(--accent), #0891b2); color: white; border-radius: 50px; font-weight: 600; text-decoration: none; transition: all 0.3s; margin: 0.5rem; }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(6, 182, 212, 0.3); }
-        .btn-secondary { background: transparent; border: 1px solid var(--border); color: var(--text); }
-        .btn-secondary:hover { border-color: var(--accent); background: rgba(6, 182, 212, 0.1); }
+        footer { padding: 2.5rem 0; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+        .foot { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
 
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s cubic-bezier(.16,1,.3,1); }
+        .reveal.on { opacity: 1; transform: none; }
 
-        footer { padding: 3rem 0; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); }
-
-        @media (max-width: 768px) {
-            .case-hero h1 { font-size: 2.25rem; }
-            .container { padding: 0 1.5rem; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .detail-grid { grid-template-columns: 1fr; }
-            .nav-container { padding: 0 1.5rem; }
-            .phase-table td:first-child { width: 120px; }
+        @media (max-width: 900px) {
+            .hero-grid, .demo-grid, .ba, .final-box { grid-template-columns: 1fr; }
+            .ba .with { border-left: 0; border-top: 1px solid var(--line); }
+            .steps { grid-template-columns: 1fr 1fr; } .steps::before { display: none; }
+            .bento { grid-template-columns: 1fr 1fr; }
+            .c-wide, .c-tall, .c-3, .c-2 { grid-column: span 2; grid-row: auto; }
+            .stats { grid-template-columns: 1fr 1fr; }
+            .demo-grid { gap: 2.5rem; }
+        }
+        @media (max-width: 560px) {
+            .wrap { padding: 0 1rem; }
+            section { padding: 4rem 0; }
+            .hero { padding: 3rem 0 4rem; }
+            .steps { grid-template-columns: 1fr; }
+            .ba > div, .final-box { padding: 1.6rem; }
+            .chat { height: 400px; }
+            .nav-in .btn-sm { display: none; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .reveal, .msg, .note, .result { opacity: 1 !important; transform: none !important; transition: none !important; }
+            .typing i { animation: none; }
         }
     </style>
 </head>
 <body>
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
-
     <nav>
-        <div class="nav-container">
-            <a href="../index.html" class="back-link">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5M12 19l-7-7 7-7"/></svg>
-                Back to Portfolio
-            </a>
-            <span class="logo">CEA</span>
+        <div class="wrap nav-in">
+            <a href="../index.html#projects" class="back"><i class="ph ph-arrow-left"></i> Back to portfolio</a>
+            <a href="mailto:emmanbizz@gmail.com?subject=AI%20Recruiter%20demo" class="btn btn-primary btn-sm">Book a demo</a>
         </div>
     </nav>
 
-    <section class="case-hero">
-        <div class="container">
-            <div class="case-meta">
-                <span class="case-id">P-016</span>
-                <span class="case-tag">AI Agents</span><span class="case-tag">Recruitment</span>
+    <header class="hero">
+        <div class="wrap hero-grid">
+            <div>
+                <span class="tag">AI Recruiter for Messenger and Instagram</span>
+                <h1>Every applicant gets an answer, even at 2&nbsp;AM.</h1>
+                <p class="sub">It chats with applicants in Taglish, collects complete details, and hands them straight to your recruiters.</p>
+                <div class="ctas">
+                    <a href="mailto:emmanbizz@gmail.com?subject=AI%20Recruiter%20demo" class="btn btn-primary">Book a demo <i class="ph ph-arrow-right"></i></a>
+                    <a href="#demo" class="btn btn-ghost">See it in action</a>
+                </div>
             </div>
-            <h1>AI Recruiter Inbox Assistant</h1>
-            <p class="case-headline">An AI recruiter that runs a staffing agency&#39;s Facebook and Instagram inbox. It holds a natural conversation in Taglish, collects applicant details across many messages, answers only from an approved knowledge base, and hands every complete applicant straight to a human recruiter.</p>
+            <div class="phone" aria-label="Example conversation between an applicant and the AI recruiter">
+                <div class="ph-top"><div class="ph-av"><i class="ph-fill ph-briefcase"></i></div><div><div class="ph-name">Recruitment Team</div><div class="ph-st">Replies instantly</div></div></div>
+                <div class="chat" id="heroChat"></div>
+            </div>
+        </div>
+    </header>
+
+    <section id="problem">
+        <div class="wrap">
+            <h2 class="reveal">Your inbox is where good applicants go cold.</h2>
+            <p class="lead reveal">Ads bring in hundreds of messages. A canned auto-reply cannot keep up with how people actually apply.</p>
+            <div class="ba reveal">
+                <div class="without">
+                    <h3><i class="ph ph-x-circle"></i> Today</h3>
+                    <ul>
+                        <li><i class="ph ph-copy"></i>One fixed auto-reply asks everyone for the same block of details</li>
+                        <li><i class="ph ph-puzzle-piece"></i>Applicants answer in pieces, send resume photos, or ask questions first</li>
+                        <li><i class="ph ph-keyboard"></i>Recruiters retype details from chat into spreadsheets</li>
+                        <li><i class="ph ph-hourglass-medium"></i>Half-finished chats sit unanswered until the applicant gives up</li>
+                    </ul>
+                </div>
+                <div class="with">
+                    <h3><i class="ph ph-check-circle"></i> With the AI recruiter</h3>
+                    <ul>
+                        <li><i class="ph ph-chat-circle-dots"></i>A real conversation that asks only for what is still missing</li>
+                        <li><i class="ph ph-stack"></i>Details collected across many messages and kept together</li>
+                        <li><i class="ph ph-table"></i>Clean, validated rows land in your sheet automatically</li>
+                        <li><i class="ph ph-bell-ringing"></i>Two well-timed follow-ups bring quiet applicants back</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section class="case-content">
-        <div class="container">
-
-            <div class="stats-grid reveal">
-                <div class="stat-card"><span class="stat-number">24/7</span><span class="stat-label">Inbox coverage, no recruiter on shift</span></div><div class="stat-card"><span class="stat-number">5</span><span class="stat-label">Validated fields to qualify an applicant</span></div><div class="stat-card"><span class="stat-number">20</span><span class="stat-label">Turns of conversation memory per applicant</span></div><div class="stat-card"><span class="stat-number">&lt;&#8369;1</span><span class="stat-label">AI cost per conversation</span></div>
-            </div>
-
-            <div class="section reveal">
-                <h2>The Problem</h2>
-                <p>A manpower agency runs recruitment ads for local-hire roles and gets a steady stream of applicants messaging its Page. A canned auto-reply asked everyone for a fixed block of details. Real applicants do not answer that way: they send their name in one bubble and their number three messages later, post a photo of a resume, ask about salary, or go quiet halfway.</p><p>Recruiters were retyping details from chat into spreadsheets, and a large share of conversations simply hung with no reply and no closure. Management&#39;s feedback was blunt: applicants were being left waiting with no idea what happens next.</p><blockquote><p>The goal was not a chatbot that talks a lot. It was an inbox where every serious applicant reaches a recruiter with clean data, and nobody is left hanging.</p></blockquote>
-            </div>
-            <div class="section reveal">
-                <h2>How It Works</h2>
-                <p>Every inbound message flows through one n8n workflow. The platform gets an instant acknowledgment so it never times out, and the real work runs right after.</p><table class="phase-table"><tr><td>Listen</td><td>Messenger and Instagram messages arrive through a messaging platform bridge into an n8n webhook. Instagram and TikTok can be added later without touching the brain, because replies go through one centralized inbox.</td></tr><tr><td>Remember</td><td>The applicant&#39;s session is loaded from a state sheet: everything collected so far, open questions, and the last 20 turns of real dialogue, including the AI&#39;s own previous replies.</td></tr><tr><td>Extract</td><td>GPT-4o reads the new message in context and pulls structured fields: surname, first and middle name, age, position, contact number and location. New values merge with what is already known instead of overwriting it.</td></tr><tr><td>Validate</td><td>Deterministic code checks what the AI cannot be trusted to judge. Philippine mobile numbers are normalized (+63 to 09) and must match the 11-digit format. An invalid number never counts toward completion.</td></tr><tr><td>Answer</td><td>Applicant questions are answered only from a knowledge base the client maintains in a spreadsheet. If the answer is not there, the assistant says a recruiter will cover it. Every unanswered question is logged, so the knowledge base grows from real demand.</td></tr><tr><td>Decide to speak</td><td>The AI also decides whether a reply is worth sending. A sticker, an "ok", or a repeat question it already deferred gets silence instead of a robotic repeat.</td></tr><tr><td>Close and hand off</td><td>The first time all required fields are valid, one fixed closing message goes out with a clear timeline, and the applicant is pushed directly into the recruitment round robin (P-017). An audit row is written for every handoff.</td></tr><tr><td>Re-engage</td><td>A separate scheduled workflow nudges applicants who went quiet with missing details: once after an hour and once before the 24-hour messaging window closes, each time listing exactly what is still needed.</td></tr></table>
-            </div>
-            <div class="section reveal">
-                <h2>One Brain, Not Two</h2>
-                <p>The first live version mixed fixed template replies with AI replies. It looked safe on paper. In real conversations it fell apart: when a phone number was invalid, the fixed correction fired on every single message, even after an applicant explained they were overseas. Two systems were answering the same person and neither knew what the other had said.</p><p>The redesign gave all conversation to the AI, with memory and a silence gate, and shrank the deterministic layer to the one moment that must never be wrong: confirming a truly complete, valid applicant, sending the closing message, and pushing the lead. Code owns the irreversible step. The AI owns the conversation.</p><div class="detail-grid"><div class="detail-item"><div class="detail-label">What we saw</div><div class="detail-value">Identical replies to every bubble in a burst of messages</div></div><div class="detail-item"><div class="detail-label">What was happening</div><div class="detail-value">The AI had no memory of its own replies, so each message looked like the first one</div></div><div class="detail-item"><div class="detail-label">What we saw</div><div class="detail-value">A follow-up nudge repeating every 30 minutes</div></div><div class="detail-item"><div class="detail-label">What was happening</div><div class="detail-value">The nudge counter was read from the send response instead of the original row, so it never incremented</div></div></div>
-            </div>
-            <div class="section reveal">
-                <h2>Built to Be Redeployed</h2>
-                <p>Every credential, template, field rule and sheet reference lives in a single configuration node at the top of the workflow. Pointing the same brain at a different business is a config swap, not a rebuild, which is what makes it a product rather than a one-off.</p>
-            </div>
-
-            <div class="section reveal">
-                <h2>Tools &amp; Technologies</h2>
-                <div class="tools-list">
-                    <span class="tool-item">n8n</span><span class="tool-item">OpenAI GPT-4o</span><span class="tool-item">ManyChat</span><span class="tool-item">Messenger</span><span class="tool-item">Instagram</span><span class="tool-item">Google Sheets</span><span class="tool-item">JavaScript Code Nodes</span>
+    <section id="demo" style="background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+        <div class="wrap">
+            <h2 class="reveal">See how it handles real applicants.</h2>
+            <p class="lead reveal">Pick a situation. These are based on the patterns it handles every day.</p>
+            <div class="demo-grid">
+                <div class="tabs reveal" role="tablist" aria-label="Example conversations">
+                    <button class="tab" role="tab" aria-selected="true" data-demo="pieces"><b>Sends details in pieces</b><span>Keeps track across messages and asks only for what is missing.</span></button>
+                    <button class="tab" role="tab" aria-selected="false" data-demo="question"><b>Asks a question first</b><span>Answers from your approved list, or hands it to a recruiter.</span></button>
+                    <button class="tab" role="tab" aria-selected="false" data-demo="quiet"><b>Goes quiet halfway</b><span>Follows up at the right time, inside Facebook's 24-hour window.</span></button>
+                    <button class="tab" role="tab" aria-selected="false" data-demo="abroad"><b>Applies from abroad</b><span>Explains politely once, then stops asking.</span></button>
+                </div>
+                <div class="phone reveal" aria-live="polite">
+                    <div class="ph-top"><div class="ph-av"><i class="ph-fill ph-briefcase"></i></div><div><div class="ph-name">Recruitment Team</div><div class="ph-st">Replies instantly</div></div></div>
+                    <div class="chat" id="demoChat"></div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <div class="outcome-box reveal">
-                <h3>
-                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    Outcome &amp; Impact
-                </h3>
-                <ul>
-                    <li><strong>Every complete applicant gets closure:</strong> a clear message with what happens next and when, instead of an open-ended chat.</li><li><strong>No retyping:</strong> clean, validated applicant records land in a recruiter&#39;s sheet automatically.</li><li><strong>No invented answers:</strong> the assistant only answers from the client&#39;s own knowledge base and defers everything else to a human.</li><li><strong>Fewer lost applicants:</strong> quiet, half-finished conversations get two well-timed nudges inside the messaging window.</li><li><strong>Productized:</strong> one config node makes the same assistant deployable for any business that recruits or sells through chat.</li>
-                </ul>
+    <section id="how">
+        <div class="wrap">
+            <h2 class="reveal">How it works</h2>
+            <div class="steps">
+                <div class="step reveal"><div class="ic"><i class="ph ph-ear"></i></div><h3>Listens</h3><p>Every message on your Facebook Page and Instagram is picked up the moment it arrives.</p></div>
+                <div class="step reveal"><div class="ic"><i class="ph ph-brain"></i></div><h3>Remembers</h3><p>It reads the whole conversation, including its own replies, so it never repeats itself.</p></div>
+                <div class="step reveal"><div class="ic"><i class="ph ph-list-checks"></i></div><h3>Collects and checks</h3><p>Name, age, position and a valid mobile number, verified before anything counts as complete.</p></div>
+                <div class="step reveal"><div class="ic"><i class="ph ph-handshake"></i></div><h3>Hands off</h3><p>Complete applicants get a closing message and go straight to your next available recruiter.</p></div>
             </div>
+        </div>
+    </section>
 
-            <div class="case-cta reveal">
-                <h3>Ready to Automate Your Operations?</h3>
-                <p>Let's build intelligent systems that eliminate manual work and scale without headcount.</p>
+    <section id="features" style="padding-top: 0;">
+        <div class="wrap">
+            <h2 class="reveal">Built to sound human and stay accurate.</h2>
+            <div class="bento">
+                <div class="cell c-wide c-accent reveal">
+                    <i class="ph ph-translate"></i>
+                    <h3>Natural Taglish, polite every time</h3>
+                    <p>Warm, English-forward Taglish with "po" and "opo", the way your best recruiter talks. It varies its wording instead of pasting the same line.</p>
+                </div>
+                <div class="cell c-tall reveal">
+                    <i class="ph ph-book-open-text"></i>
+                    <h3>Answers only from your list</h3>
+                    <p>You keep a simple sheet of approved answers. Anything not on it goes to a recruiter, so it never invents salary or job details.</p>
+                    <div class="quote-bubble">Yes po, local hire lang po kami for now.</div>
+                    <div class="quote-bubble">Our recruiter will reach out and you can ask them about salary details po.</div>
+                </div>
+                <div class="cell c-2 reveal">
+                    <i class="ph ph-speaker-simple-slash"></i>
+                    <h3>Knows when to stay quiet</h3>
+                    <p>A sticker or an "ok" gets silence, not another robotic reply.</p>
+                </div>
+                <div class="cell c-2 c-pattern reveal">
+                    <i class="ph ph-device-mobile-camera"></i>
+                    <h3>Checks every number</h3>
+                    <p>Philippine mobile numbers are validated before a lead counts as complete.</p>
+                </div>
+                <div class="cell c-3 reveal">
+                    <i class="ph ph-clock-countdown"></i>
+                    <h3>Follow-ups that respect the rules</h3>
+                    <p>Two nudges for unfinished applications, both timed inside Facebook's 24-hour messaging window.</p>
+                </div>
+                <div class="cell c-3 reveal">
+                    <i class="ph ph-plugs-connected"></i>
+                    <h3>Fits your setup</h3>
+                    <p>Applicants land in your Google Sheet or recruiter rotation, with a log of every handoff your team can check.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="proof">
+        <div class="wrap">
+            <h2 class="reveal">Already running for a Philippine manpower agency.</h2>
+            <p class="lead reveal">It answers their Facebook and Instagram applicants around the clock and feeds a recruitment pipeline and management dashboard I also built.</p>
+            <div class="stats reveal">
+                <div class="stat"><b>24/7</b><span>Inbox coverage with no recruiter on shift</span></div>
+                <div class="stat"><b>5</b><span>Validated details before a handoff</span></div>
+                <div class="stat"><b>2</b><span>Timed follow-ups per unfinished applicant</span></div>
+                <div class="stat"><b>&lt;&#8369;1</b><span>AI cost per conversation</span></div>
+            </div>
+            <div class="proof-links reveal">
+                <a href="case-study-p017.html">See the recruitment pipeline <i class="ph ph-arrow-right"></i></a>
+                <a href="case-study-p018.html">See the management dashboard <i class="ph ph-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq">
+        <div class="wrap">
+            <h2 class="reveal">Questions business owners ask</h2>
+            <div class="faq reveal">
+                <details>
+                    <summary>Can my team still reply themselves? <i class="ph ph-plus"></i></summary>
+                    <p>Yes. Every conversation stays in your normal inbox. Your recruiters can read any chat and step in whenever they want.</p>
+                </details>
+                <details>
+                    <summary>What happens when it does not know an answer? <i class="ph ph-plus"></i></summary>
+                    <p>It tells the applicant a recruiter will cover it and keeps collecting their details. The unanswered question is logged, so you can add it to your approved answers.</p>
+                </details>
+                <details>
+                    <summary>Which platforms does it work on? <i class="ph ph-plus"></i></summary>
+                    <p>Facebook Messenger and Instagram today, through a messaging platform that keeps all chats in one inbox. TikTok can be added on the same setup.</p>
+                </details>
+                <details>
+                    <summary>Is it expensive to run? <i class="ph ph-plus"></i></summary>
+                    <p>The AI itself costs less than one peso per conversation. The messaging platform has its own subscription, which I help you set up.</p>
+                </details>
+                <details>
+                    <summary>Is it only for recruitment? <i class="ph ph-plus"></i></summary>
+                    <p>Recruitment is where it is proven. The same setup works for any business that takes inquiries through chat, by changing the details it collects and the answers it is allowed to give.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <section class="final" style="padding-top: 0;">
+        <div class="wrap">
+            <div class="final-box reveal">
                 <div>
-                    <a href="../index.html#contact" class="btn">
-                        Start a Project
-                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                    </a>
-                    <a href="../index.html#projects" class="btn btn-secondary">View More Projects</a>
+                    <h2 style="margin-bottom: 0;">Stop losing applicants in your inbox.</h2>
+                    <p>See it answer your own Page's messages in a short walkthrough.</p>
                 </div>
+                <a href="mailto:emmanbizz@gmail.com?subject=AI%20Recruiter%20demo" class="btn btn-primary">Book a demo <i class="ph ph-arrow-right"></i></a>
             </div>
-
         </div>
     </section>
 
     <footer>
-        <div class="container">
-            <p>&copy; 2026 Christian Emmanuelle Agustin. All rights reserved.</p>
+        <div class="wrap foot">
+            <span>&copy; 2026 Christian Emmanuelle Agustin</span>
+            <a href="../index.html#projects" class="back">View more projects</a>
         </div>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
-            if (!isTouchDevice) {
-                const cursor = document.querySelector('.cursor');
-                const follower = document.querySelector('.cursor-follower');
-                let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0, followerX = 0, followerY = 0;
-                document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
-                function animateCursor() {
-                    cursorX += (mouseX - cursorX) * 0.2; cursorY += (mouseY - cursorY) * 0.2;
-                    followerX += (mouseX - followerX) * 0.1; followerY += (mouseY - followerY) * 0.1;
-                    cursor.style.left = cursorX + 'px'; cursor.style.top = cursorY + 'px';
-                    follower.style.left = (followerX - 10) + 'px'; follower.style.top = (followerY - 10) + 'px';
-                    requestAnimationFrame(animateCursor);
+    (function () {
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var D = {
+            hero: [
+                ['note', '2:14 AM'],
+                ['in', 'Hi po, hiring pa po ba kayo?'],
+                ['out', 'Yes po! Paki-send na lang po yung name, age, position at contact number to proceed.'],
+                ['in', 'Maria Santos, 24, production operator'],
+                ['in', '0917 555 0142'],
+                ['out', 'Thanks, Maria! Complete na po details mo. Our recruitment team will reach out within 3 to 5 business days po.'],
+                ['result', 'Sent to a recruiter']
+            ],
+            pieces: [
+                ['in', 'Hi po, interested po ako'],
+                ['out', 'Thanks for the interest po! Paki-send na lang po yung name, age, position at contact number.'],
+                ['in', 'Maria Santos po'],
+                ['in', '24, production operator'],
+                ['out', 'Thanks, Maria! Pa-send na lang po ng contact number para ma-complete natin.'],
+                ['in', '0917 555 0142'],
+                ['out', 'Complete na po details mo. Our recruitment team will reach out within 3 to 5 business days po. Salamat!'],
+                ['result', 'Complete, sent to a recruiter']
+            ],
+            question: [
+                ['in', 'Local hire lang po ba?'],
+                ['out', 'Yes po, local hire lang po kami for now. If interested po kayo, paki-send na lang po ng name, age, position at contact number.'],
+                ['in', 'Magkano po sahod?'],
+                ['out', 'Our recruiter will reach out and you can ask them about salary details po. Pa-send na lang po ng details mo para ma-process.'],
+                ['in', 'Ana Reyes, 27, cleaner, 0998 555 0177'],
+                ['out', 'Thanks, Ana! Complete na po details mo. Expect a call within 3 to 5 business days po.'],
+                ['result', 'Answered from your approved list']
+            ],
+            quiet: [
+                ['in', 'Juan dela Cruz, 31'],
+                ['out', 'Thanks, Juan! Pa-send na lang po ng position na ina-apply mo at contact number.'],
+                ['note', '1 hour later'],
+                ['out', 'Hi Juan! Reminder lang po, paki-send na lang po ng position at contact number para ma-process namin ang application mo.'],
+                ['in', 'Warehouse po, 0917 555 0188'],
+                ['out', 'Complete na po! Our recruitment team will reach out within 3 to 5 business days po.'],
+                ['result', 'Recovered with a timed follow-up']
+            ],
+            abroad: [
+                ['in', 'Hello po, nasa Dubai po ako ngayon. Pwede po ba mag-apply?'],
+                ['out', 'Salamat po sa interest! Local hire lang po kami sa ngayon, so hindi pa po namin ma-process ang applications from abroad.'],
+                ['in', 'Ah sige po, salamat'],
+                ['note', 'No reply needed'],
+                ['result', 'Handled once, no repeat asks']
+            ]
+        };
+
+        function down(el) { el.scrollTo({ top: el.scrollHeight, behavior: reduce ? 'auto' : 'smooth' }); }
+        function play(el, script) {
+            if (el._timer) clearTimeout(el._timer);
+            el.innerHTML = '';
+            var typing = document.createElement('div');
+            typing.className = 'typing';
+            typing.innerHTML = '<i></i><i></i><i></i>';
+            var nodes = script.map(function (s) {
+                var n = document.createElement('div');
+                n.className = s[0] === 'note' ? 'note' : s[0] === 'result' ? 'result' : 'msg ' + s[0];
+                n.textContent = s[1];
+                if (s[0] === 'result') n.insertAdjacentHTML('afterbegin', '<i class="ph-bold ph-check"></i>');
+                el.appendChild(n);
+                return { n: n, kind: s[0] };
+            });
+            el.scrollTop = 0;
+            if (reduce) { nodes.forEach(function (x) { x.n.classList.add('show'); }); down(el); return; }
+            var i = 0;
+            function next() {
+                if (i >= nodes.length) return;
+                var x = nodes[i];
+                if (x.kind === 'out') {
+                    el.insertBefore(typing, x.n);
+                    typing.classList.add('show'); down(el);
+                    el._timer = setTimeout(function () {
+                        typing.classList.remove('show');
+                        if (typing.parentNode) typing.parentNode.removeChild(typing);
+                        x.n.classList.add('show'); down(el); i++; el._timer = setTimeout(next, 650);
+                    }, 900);
+                } else {
+                    x.n.classList.add('show'); down(el); i++;
+                    el._timer = setTimeout(next, x.kind === 'note' ? 500 : 750);
                 }
-                animateCursor();
-                document.querySelectorAll('a, button, .stat-card').forEach(el => {
-                    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-                    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-                });
             }
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
-            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            next();
+        }
+
+        var hero = document.getElementById('heroChat');
+        var demo = document.getElementById('demoChat');
+        play(hero, D.hero);
+
+        var tabs = document.querySelectorAll('.tab');
+        tabs.forEach(function (t) {
+            t.addEventListener('click', function () {
+                tabs.forEach(function (o) { o.setAttribute('aria-selected', o === t ? 'true' : 'false'); });
+                play(demo, D[t.dataset.demo]);
+            });
         });
+
+        var started = false;
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+                if (!e.isIntersecting) return;
+                e.target.classList.add('on');
+                if (e.target === demo.closest('.phone') && !started) { started = true; play(demo, D.pieces); }
+                io.unobserve(e.target);
+            });
+        }, { threshold: 0.2 });
+        document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+    })();
     </script>
 </body>
 </html>
